@@ -1,6 +1,7 @@
 import React from "react";
 import { ITask } from "../../types/task";
 import Button from "../Button";
+import { v4 as uuidv4 } from 'uuid';
 import style from './Form.module.scss';
 
 class Form extends React.Component<{ setTasks: React.Dispatch<React.SetStateAction<ITask[]>>}> {
@@ -11,7 +12,12 @@ class Form extends React.Component<{ setTasks: React.Dispatch<React.SetStateActi
 
     addTask(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        this.props.setTasks(oldTasks => [...oldTasks, {...this.state}]);
+        this.props.setTasks(oldTasks => 
+            [...oldTasks, {...this.state, selected: false, completed: false, id: uuidv4() }]);
+        this.setState({
+            task: "",
+            time: "00:00"
+        });
     }
     render() {
         return (
