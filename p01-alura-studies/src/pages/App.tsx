@@ -14,7 +14,23 @@ function App() {
     setTasks(previousTasks => previousTasks.map(task => ({
       ...task,
       selected: task.id === selectedTask.id ? true : false
-    })))
+    })));
+  }
+
+  function endTask() {
+    if (selected) {
+      setSelected(undefined);
+      setTasks(previousTasks => previousTasks.map(task => {
+        if (task.id === selected.id) {
+          return {
+            ...task,
+            selected: false,
+            completed: true
+          }
+        }
+        return task;
+      }))
+    }
   }
 
   return (
@@ -24,7 +40,10 @@ function App() {
         tasks={tasks}
         selectTask={selectTask}
       />
-      <Timer selected={selected} />
+      <Timer
+        selected={selected}
+        endTask={endTask}
+      />
     </div>
   );
 }
